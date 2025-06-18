@@ -1,8 +1,8 @@
 [project]
-name = "my_module"
+name = "elasticsearch_rdsl"
 version = "0.1.0"
 description = "My awesome Python module"
-authors = [{name="Your Name", email="you@example.com"}]
+authors = [{name="Kamil Skop", email="kamil.skop.tau@gmail.com"}]
 license = "MIT"
 dependencies = [
     "elasticsearch==9.0.1"
