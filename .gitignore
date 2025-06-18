@@ -3,4 +3,6 @@ __pycache__/
 *.pyo
 *.egg-info/
 dist/
-.env
+*.env
+*.vscode/
+/venv

@@ -4,6 +4,9 @@ version = "0.1.0"
 description = "My awesome Python module"
 authors = [{name="Your Name", email="you@example.com"}]
 license = "MIT"
+dependencies = [
+    "elasticsearch==9.0.1"
+]
 
 
 [build-system]
