@@ -1,7 +1,10 @@
 import logging 
-from exceptions import (
+from typing import TypedDict
+from elasticsearch_rdsl.exceptions import (
     ConfictIndexDefinition,
     IndexNotRegisteredError,
+    ErrDetail,
+    IndexInitError
 )
 from collections import defaultdict
 from elasticsearch.dsl.utils import AsyncUsingType 
@@ -9,8 +12,11 @@ from elasticsearch.dsl import AsyncDocument
 
 logger = logging.getLogger(__name__)
 
+
 class AsyncDocumentRegistry():
     def __init__(self):
+        """
+        """
         self._indices:dict[str, AsyncDocument] = {}
         self._related_indices = defaultdict(set)
 
@@ -37,19 +43,45 @@ class AsyncDocumentRegistry():
             raise ConfictIndexDefinition(f"Index: '{index_name}' already registered.")
         return document
     
-    async def index_init(self, index: str, using: AsyncUsingType | None = None, **kwargs):
+    async def index_init(self, index: str, using: AsyncUsingType | None = None, **kwargs) -> None:
+        """
+        """
         index_ref:AsyncDocument = self._indices.get(index, False)
         if not index_ref:
             raise IndexNotRegisteredError(f"The indicated index: '{index} not registered")
         else:
-            return await index_ref.init(using=using, **kwargs)
+            await index_ref.init(using=using, **kwargs)
         
-    async def index_delete(self, index: str, using: AsyncUsingType | None = None, **kwargs):
+    async def init_all(self, using: AsyncUsingType | None = None, fail_fast:bool = False, **kwargs) -> None:
+        """
+        """
+        err_list = []
+
+        for index_name, index_ref in self._indices.items():
+            try:
+                index_ref.init(using=using, **kwargs)
+            except Exception as ex:
+                if fail_fast:
+                    raise ex
+                else:
+                    err_list.append(
+                        ErrDetail(
+                            index_name=index_name,
+                            exception_type=type(ex),
+                            detail=str(ex)
+                        )
+                    )
+        if len(err_list) > 0:
+            raise IndexInitError(detail=err_list)
+
+    async def index_delete(self, index: str, using: AsyncUsingType | None = None, **kwargs) -> None:
+        """
+        """
         index_ref:AsyncDocument = self._indices.get(index, False)
         if not index_ref:
             raise IndexNotRegisteredError(f"The indicated index: '{index} not registered")
         else:
-            return await index_ref._index.delete(using=using, **kwargs) 
+            await index_ref._index.delete(using=using, **kwargs) 
 
 registry = AsyncDocumentRegistry()
 

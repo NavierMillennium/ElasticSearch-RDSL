@@ -1,5 +1,5 @@
 from ._async.documents import (
-    RDSLDocument,
+    AsyncRDSLDocument,
     RelatedDocument
 )
 from ._async.registries import (
@@ -7,7 +7,7 @@ from ._async.registries import (
 )
 
 __all__ = [
-    "RDSLDocument",
+    "AsyncRDSLDocument",
     "RelatedDocument",
     "registry"
 ]

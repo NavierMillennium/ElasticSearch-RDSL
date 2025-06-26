@@ -1,7 +1,7 @@
 [project]
 name = "elasticsearch_rdsl"
 version = "0.1.0"
-description = "My awesome Python module"
+description = "ElasticSearch DSL module with relationship layer"
 authors = [{name="Kamil Skop", email="kamil.skop.tau@gmail.com"}]
 license = "MIT"
 dependencies = [
