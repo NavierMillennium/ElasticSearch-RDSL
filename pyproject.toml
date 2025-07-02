@@ -5,7 +5,7 @@ description = "ElasticSearch DSL module with relationship layer"
 authors = [{name="Kamil Skop", email="kamil.skop.tau@gmail.com"}]
 license = "MIT"
 dependencies = [
-    "elasticsearch==9.0.1"
+    "elasticsearch>=8.18.0"
 ]
 
 
