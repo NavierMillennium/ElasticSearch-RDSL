@@ -29,8 +29,8 @@ class AsyncDocumentRegistry():
         """
             Document class register decorator. For fast and easy to es init.
         """
-        if not issubclass(document_class, Type[T]):
-            raise TypeError(f"Expected input class to be subclass of AsyncDocument, got ({document_class.__name__})")
+        if not issubclass(document_class, AsyncRDSLDocument):
+            raise TypeError(f"Expected input class to be subclass of AsyncRDSLDocument, got ({document_class.__name__})")
 
         index_meta = getattr(document_class, "Index")
   
